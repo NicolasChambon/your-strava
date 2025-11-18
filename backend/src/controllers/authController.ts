@@ -1,12 +1,13 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { z } from "zod";
+import { BadRequestError } from "@/lib/errors";
 import { AuthService } from "@/services/authService";
 
 const authService = new AuthService();
 
 export class AuthController {
   // GET /auth/strava/callback?code=AUTH_CODE
-  async handleCallback(req: Request, res: Response) {
+  async handleCallback(req: Request, res: Response, next: NextFunction) {
     try {
       const querySchema = z.object({
         code: z.string().min(1),
@@ -15,8 +16,7 @@ export class AuthController {
       const parseResult = querySchema.safeParse(req.query);
 
       if (!parseResult.success) {
-        console.error("Zod validation error:", parseResult.error.message);
-        return res.status(400).json({ error: parseResult.error.message });
+        throw new BadRequestError(parseResult.error.message);
       }
 
       const { code } = parseResult.data;
@@ -29,11 +29,7 @@ export class AuthController {
         message: "Authentication successful",
       });
     } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : "Unknown error";
-
-      console.error("Error in callback handling:", errorMessage);
-      res.status(500).json({ error: "Authentication failed" });
+      next(error);
     }
   }
 }

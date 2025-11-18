@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 export class NotFoundError extends Error {
   statusCode = 404;
@@ -24,7 +24,12 @@ export class BadRequestError extends Error {
   }
 }
 
-export function errorHandler(error: Error, req: Request, res: Response) {
+export function errorHandler(
+  error: Error,
+  req: Request,
+  res: Response,
+  _next: NextFunction
+) {
   console.error("Error:", {
     path: req.path,
     error: error.message,
@@ -39,7 +44,6 @@ export function errorHandler(error: Error, req: Request, res: Response) {
     });
   }
 
-  // Erreur serveur inconnue - message générique
   res.status(500).json({
     success: false,
     error: "An unexpected error occurred. Please try again later.",

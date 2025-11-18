@@ -13,6 +13,12 @@ export default defineConfig([
     },
     rules: {
       "no-console": ["error", { allow: ["error", "info"] }],
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/no-unsafe-assignment": "warn",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { argsIgnorePattern: "^_" },
+      ],
       "import/order": [
         "warn",
         {
@@ -40,6 +46,10 @@ export default defineConfig([
     },
     languageOptions: {
       ecmaVersion: 2022,
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
     },
   },
 ]);

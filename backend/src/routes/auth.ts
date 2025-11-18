@@ -6,8 +6,8 @@ const router = Router();
 const authController = new AuthController();
 
 // GET /auth/strava/callback
-router.get("/strava/callback", (req, res) =>
-  authController.handleCallback(req, res)
+router.get("/strava/callback", (req, res, next) =>
+  authController.handleCallback(req, res, next)
 );
 
 export default router;

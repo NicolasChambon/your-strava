@@ -5,6 +5,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { TypographyH2 } from "@/components/ui/typographyH2";
 import { TypographyP } from "@/components/ui/typographyP";
 import { fetcher } from "@/lib/api";
+import type { AuthCallbackResponse } from "@/types/auth";
 
 export default function Callback() {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ export default function Callback() {
   const code = searchParams.get("code");
   const errorParam = searchParams.get("error");
 
-  const { data, error, isLoading } = useSWR(
+  const { data, error, isLoading } = useSWR<AuthCallbackResponse, Error>(
     code ? `/auth/strava/callback?code=${code}` : null,
     fetcher,
     {

@@ -8,7 +8,7 @@ import eslintPluginImport from "eslint-plugin-import";
 import { defineConfig, globalIgnores } from "eslint/config";
 
 export default defineConfig([
-  globalIgnores(["dist"]),
+  globalIgnores(["dist", "src/components/ui"]),
   {
     files: ["**/*.{ts,tsx}"],
     extends: [
@@ -23,6 +23,8 @@ export default defineConfig([
     },
     rules: {
       "no-console": ["error", { allow: ["error"] }],
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/no-unsafe-assignment": "warn",
       "react/jsx-sort-props": [
         "warn",
         {
@@ -59,6 +61,10 @@ export default defineConfig([
     languageOptions: {
       ecmaVersion: 2022,
       globals: globals.browser,
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
     },
   },
 ]);

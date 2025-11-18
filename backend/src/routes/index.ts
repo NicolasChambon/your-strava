@@ -9,7 +9,7 @@ router.get("/health", (_req, res) => {
   res.json({ status: "ok", message: "Backend is running" });
 });
 
-// API routes
+// API sub-routers
 router.use("/auth", authRoutes);
 router.use("/activities", activitiesRoutes);
 

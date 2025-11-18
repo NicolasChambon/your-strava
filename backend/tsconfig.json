@@ -24,7 +24,7 @@
     "noFallthroughCasesInSwitch": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "erasableSyntaxOnly": true,
+    "erasableSyntaxOnly": false,
     "noUncheckedSideEffectImports": true
   },
   "include": ["src/**/*"],

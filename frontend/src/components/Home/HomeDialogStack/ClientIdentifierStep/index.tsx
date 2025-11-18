@@ -19,12 +19,10 @@ export function ClientIdentifierStep() {
   const isClientIdInputValid = /^\d{5,}$/.test(clientIdInput);
   const isClientSecretInputValid = /^[a-zA-Z0-9]{40}$/.test(clientSecretInput);
 
-  console.log({ isClientIdInputValid, isClientSecretInputValid });
-
   const handlePaste = usePasteClipboard();
 
-  const handleConnect = (clientId: string) => {
-    const OAuthUrl = generateStravaAuthUrl(clientId);
+  const handleConnect = () => {
+    const OAuthUrl = generateStravaAuthUrl();
     window.location.href = OAuthUrl;
   };
 
@@ -75,7 +73,7 @@ export function ClientIdentifierStep() {
           disabled={
             isClientIdInputValid && isClientSecretInputValid ? false : true
           }
-          onClick={() => handleConnect(clientIdInput)}
+          onClick={() => handleConnect()}
         >
           Connecter mon compte Strava
           <ArrowRight />

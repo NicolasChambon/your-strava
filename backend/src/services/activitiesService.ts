@@ -1,6 +1,6 @@
+import { NotFoundError, UnauthorizedError } from "@/lib/errors";
 import { prisma } from "@/lib/prisma";
 import { StravaService } from "./stravaServices";
-import { NotFoundError, UnauthorizedError } from "@/lib/errors";
 
 const stravaService = new StravaService();
 
@@ -23,6 +23,8 @@ export class AntivitiesService {
       page: 1,
       perPage: 200,
     });
+
+    console.log("Fetched activities:", activities);
 
     // Store activities in the database
   }
