@@ -1,73 +1,108 @@
-# React + TypeScript + Vite
+# Your Strava
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Application to visualize and manage your Strava activities with custom features.
 
-Currently, two official plugins are available:
+## 🏗️ Architecture
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This project is organized as a monorepo with two main applications:
 
-## React Compiler
+- **Frontend**: React + Vite application with TypeScript and TailwindCSS
+- **Backend**: Node.js REST API with Express, TypeScript, and Prisma
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🚀 Quick Start
 
-## Expanding the ESLint configuration
+### Prerequisites
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Node.js (v18+)
+- PostgreSQL
+- A Strava account and Strava API application ([create an application](https://www.strava.com/settings/api))
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Installation
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+1. Clone the repository
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+git clone https://github.com/NicolasChambon/your-strava.git
+cd your-strava
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. Install backend dependencies
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+cd backend
+npm install
 ```
+
+3. Configure backend environment variables
+
+```bash
+# Create a .env.development.local file
+cp .env.example .env.development.local
+# Edit the file with your values
+```
+
+4. Setup the database
+
+```bash
+npx prisma migrate dev
+```
+
+5. Install frontend dependencies
+
+```bash
+cd ../frontend
+npm install
+```
+
+6. Configure frontend environment variables
+
+```bash
+# Create a .env.development.local file
+cp .env.example .env.development.local
+# Edit the file with your values
+```
+
+### Running the application
+
+**Backend** (in the `backend/` folder):
+
+```bash
+npm run dev
+```
+
+**Frontend** (in the `frontend/` folder):
+
+```bash
+npm run dev
+```
+
+## 📚 Documentation
+
+- [Backend Documentation](./backend/README.md)
+- [Frontend Documentation](./frontend/README.md)
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+- React 19
+- TypeScript
+- Vite
+- TailwindCSS 4
+- React Router
+- Radix UI
+- Axios
+- SWR
+
+### Backend
+
+- Node.js
+- Express 5
+- TypeScript
+- Prisma (ORM)
+- PostgreSQL
+- Zod (validation)
+
+## 📝 License
+
+ISC
