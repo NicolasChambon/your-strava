@@ -37,15 +37,17 @@ npm install
 
 ```bash
 # Create a .env.development.local file
-cp .env.example .env.development.local
+cp .env.development .env.development.local
 # Edit the file with your values
 ```
 
 4. Setup the database
 
 ```bash
-npx prisma migrate dev
+npm run migrate:dev
 ```
+
+you can name your first migration "init"
 
 5. Install frontend dependencies
 
@@ -58,7 +60,7 @@ npm install
 
 ```bash
 # Create a .env.development.local file
-cp .env.example .env.development.local
+cp .env.development .env.development.local
 # Edit the file with your values
 ```
 

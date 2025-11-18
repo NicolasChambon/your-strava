@@ -52,17 +52,13 @@ BACKEND_PORT=3001
 FRONTEND_URL="http://localhost:5173"
 ```
 
-3. Run Prisma migrations
+3. Run init database migration and seed the "static" tables
 
 ```bash
-npx prisma migrate dev
+npm run migrate:dev
 ```
 
-4. (Optional) Open Prisma Studio to visualize the database
-
-```bash
-npx prisma studio
-```
+you can name your first migration "init"
 
 ## 🏃 Available Commands
 
@@ -77,7 +73,7 @@ npm run lint
 npx prisma generate
 
 # Create a new migration
-npx prisma migrate dev --name migration_name
+npm run migrate:dev -- --name migration-name
 
 # Open Prisma Studio
 npx prisma studio
