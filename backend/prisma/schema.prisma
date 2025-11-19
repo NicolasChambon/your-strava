@@ -32,7 +32,6 @@ model Activity {
   userId                String
   user                  User      @relation(fields: [userId], references: [id])
   stravaUserId          BigInt
-  stravaExternalId      String?
   stravaUploadId        BigInt?
   name                  String
   distance              Float
@@ -52,9 +51,7 @@ model Activity {
   kudosCount            Int
   commentCount          Int
   athleteCount          Int
-  photoCount            Int
   totalPhotoCount       Int
-  polyline              String?
   summaryPolyline       String?
   trainer               Boolean
   commute               Boolean
@@ -62,17 +59,15 @@ model Activity {
   private               Boolean
   flagged               Boolean
   workoutType           Int?
-  stravaUploadIdStr     String?
   averageSpeed          Float
   maxSpeed              Float
   hasKudoed             Boolean
-  hideFromHome          Boolean?
-  gearId                String
-  kilojoules            Float
-  averageWatts          Int
+  gearId                String?
+  kilojoules            Float?
+  averageWatts          Int?
   deviceWatts           Boolean?
-  maxWatts              Int
-  weightedAverageWatts  Int
+  maxWatts              Int?
+  weightedAverageWatts  Int?
   createdAt             DateTime  @default(now())
   updatedAt             DateTime  @updatedAt
 }
