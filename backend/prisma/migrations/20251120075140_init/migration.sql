@@ -1,3 +1,6 @@
+-- CreateEnum
+CREATE TYPE "SportType" AS ENUM ('AlpineSki', 'BackcountrySki', 'Badminton', 'Canoeing', 'Crossfit', 'EBikeRide', 'Elliptical', 'EMountainBikeRide', 'Golf', 'GravelRide', 'Handcycle', 'HighIntensityIntervalTraining', 'Hike', 'IceSkate', 'InlineSkate', 'Kayaking', 'Kitesurf', 'MountainBikeRide', 'NordicSki', 'Pickleball', 'Pilates', 'Racquetball', 'Ride', 'RockClimbing', 'RollerSki', 'Rowing', 'Run', 'Sail', 'Skateboard', 'Snowboard', 'Snowshoe', 'Soccer', 'Squash', 'StairStepper', 'StandUpPaddling', 'Surfing', 'Swim', 'TableTennis', 'Tennis', 'TrailRun', 'Velomobile', 'VirtualRide', 'VirtualRow', 'VirtualRun', 'Walk', 'WeightTraining', 'Wheelchair', 'Windsurf', 'Workout', 'Yoga');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
@@ -17,16 +20,15 @@ CREATE TABLE "Activity" (
     "stravaActivityId" BIGINT NOT NULL,
     "userId" TEXT NOT NULL,
     "stravaUserId" BIGINT NOT NULL,
-    "stravaExternalId" TEXT NOT NULL,
-    "stravaUploadId" BIGINT NOT NULL,
+    "stravaUploadId" BIGINT,
     "name" TEXT NOT NULL,
     "distance" DOUBLE PRECISION NOT NULL,
     "movingTime" INTEGER NOT NULL,
     "elapsedTime" INTEGER NOT NULL,
     "totalElevationGain" DOUBLE PRECISION NOT NULL,
-    "elevHigh" DOUBLE PRECISION NOT NULL,
-    "elevLow" DOUBLE PRECISION NOT NULL,
-    "sportTypeId" TEXT NOT NULL,
+    "elevHigh" DOUBLE PRECISION,
+    "elevLow" DOUBLE PRECISION,
+    "sportType" "SportType" NOT NULL,
     "startDate" TIMESTAMP(3) NOT NULL,
     "startDateLocal" TIMESTAMP(3) NOT NULL,
     "timezone" TEXT NOT NULL,
@@ -36,39 +38,27 @@ CREATE TABLE "Activity" (
     "kudosCount" INTEGER NOT NULL,
     "commentCount" INTEGER NOT NULL,
     "athleteCount" INTEGER NOT NULL,
-    "photoCount" INTEGER NOT NULL,
     "totalPhotoCount" INTEGER NOT NULL,
-    "polyline" TEXT,
     "summaryPolyline" TEXT,
     "trainer" BOOLEAN NOT NULL,
     "commute" BOOLEAN NOT NULL,
     "manual" BOOLEAN NOT NULL,
     "private" BOOLEAN NOT NULL,
     "flagged" BOOLEAN NOT NULL,
-    "workoutType" INTEGER NOT NULL,
-    "stravaUploadIdStr" TEXT NOT NULL,
+    "workoutType" INTEGER,
     "averageSpeed" DOUBLE PRECISION NOT NULL,
     "maxSpeed" DOUBLE PRECISION NOT NULL,
     "hasKudoed" BOOLEAN NOT NULL,
-    "hideFromHome" BOOLEAN NOT NULL,
-    "gearId" TEXT NOT NULL,
-    "kilojoules" DOUBLE PRECISION NOT NULL,
-    "averageWatts" INTEGER NOT NULL,
-    "deviceWatts" BOOLEAN NOT NULL,
-    "maxWatts" INTEGER NOT NULL,
-    "weightedAverageWatts" INTEGER NOT NULL,
+    "gearId" TEXT,
+    "kilojoules" DOUBLE PRECISION,
+    "averageWatts" INTEGER,
+    "deviceWatts" BOOLEAN,
+    "maxWatts" INTEGER,
+    "weightedAverageWatts" INTEGER,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Activity_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "SportType" (
-    "id" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-
-    CONSTRAINT "SportType_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -77,11 +67,5 @@ CREATE UNIQUE INDEX "User_stravaUserId_key" ON "User"("stravaUserId");
 -- CreateIndex
 CREATE UNIQUE INDEX "Activity_stravaActivityId_key" ON "Activity"("stravaActivityId");
 
--- CreateIndex
-CREATE UNIQUE INDEX "SportType_name_key" ON "SportType"("name");
-
 -- AddForeignKey
 ALTER TABLE "Activity" ADD CONSTRAINT "Activity_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Activity" ADD CONSTRAINT "Activity_sportTypeId_fkey" FOREIGN KEY ("sportTypeId") REFERENCES "SportType"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -6,21 +6,19 @@
   "scripts": {
     "dev": "nodemon --exec tsx src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint .",
-    "seed": "tsx src/db/seed.ts",
-    "migrate:dev": "npx prisma migrate dev && npm run seed"
+    "lint": "eslint ."
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "@prisma/client": "^6.19.0",
+    "@prisma/client": "^7.0.0",
     "axios": "^1.13.2",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
-    "prisma": "^6.19.0",
+    "prisma": "^7.0.0",
     "zod": "^4.1.12"
   },
   "devDependencies": {

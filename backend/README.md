@@ -52,10 +52,10 @@ BACKEND_PORT=3001
 FRONTEND_URL="http://localhost:5173"
 ```
 
-3. Run init database migration and seed the "static" tables
+3. Run init database migration
 
 ```bash
-npm run migrate:dev
+npx prisma migrate dev --name init
 ```
 
 you can name your first migration "init"

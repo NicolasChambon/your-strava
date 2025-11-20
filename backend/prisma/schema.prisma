@@ -11,7 +11,59 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+}
+
+enum SportType {
+  AlpineSki
+  BackcountrySki
+  Badminton
+  Canoeing
+  Crossfit
+  EBikeRide
+  Elliptical
+  EMountainBikeRide
+  Golf
+  GravelRide
+  Handcycle
+  HighIntensityIntervalTraining
+  Hike
+  IceSkate
+  InlineSkate
+  Kayaking
+  Kitesurf
+  MountainBikeRide
+  NordicSki
+  Pickleball
+  Pilates
+  Racquetball
+  Ride
+  RockClimbing
+  RollerSki
+  Rowing
+  Run
+  Sail
+  Skateboard
+  Snowboard
+  Snowshoe
+  Soccer
+  Squash
+  StairStepper
+  StandUpPaddling
+  Surfing
+  Swim
+  TableTennis
+  Tennis
+  TrailRun
+  Velomobile
+  VirtualRide
+  VirtualRow
+  VirtualRun
+  Walk
+  WeightTraining
+  Wheelchair
+  Windsurf
+  Workout
+  Yoga
 }
 
 model User {
@@ -40,8 +92,7 @@ model Activity {
   totalElevationGain    Float
   elevHigh              Float?
   elevLow               Float?
-  sportTypeId           String
-  sportType             SportType @relation(fields: [sportTypeId], references: [id])
+  sportType             SportType
   startDate             DateTime
   startDateLocal        DateTime
   timezone              String
@@ -70,12 +121,5 @@ model Activity {
   weightedAverageWatts  Int?
   createdAt             DateTime  @default(now())
   updatedAt             DateTime  @updatedAt
-}
-
-model SportType {
-  id    String   @id @default(cuid())
-  name  String   @unique
-
-  activities Activity[]
 }
  

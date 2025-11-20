@@ -1,3 +1,0 @@
--- AlterTable
-ALTER TABLE "Activity" ALTER COLUMN "elevHigh" DROP NOT NULL,
-ALTER COLUMN "elevLow" DROP NOT NULL;

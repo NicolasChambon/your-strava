@@ -44,7 +44,7 @@ cp .env.development .env.development.local
 4. Setup the database
 
 ```bash
-npm run migrate:dev
+npx prisma migrate dev --name init
 ```
 
 you can name your first migration "init"

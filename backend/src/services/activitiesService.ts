@@ -59,76 +59,82 @@ export class AntivitiesService {
   }
 
   private async saveActivitiesToDb(user: User, activities: SummaryActivity[]) {
-    const createdActivities = [];
-
-    for (const activity of activities) {
-      const sportType = await prisma.sportType.upsert({
-        where: { name: activity.sport_type },
-        update: {},
-        create: { name: activity.sport_type },
-      });
-
-      const isActivityExisting = await prisma.activity.findUnique({
-        where: { stravaActivityId: activity.id },
-      });
-
-      if (isActivityExisting) {
-        console.info(
-          `Activity with Strava ID ${activity.id} already exists. Skipping creation.`
-        );
-        continue;
-      }
-
-      const createdActivity = await prisma.activity.create({
-        data: {
-          stravaActivityId: activity.id,
-          userId: user.id,
-          stravaUserId: activity.athlete.id,
-          stravaUploadId: activity.upload_id ?? null,
-          name: activity.name,
-          distance: activity.distance,
-          movingTime: activity.moving_time,
-          elapsedTime: activity.elapsed_time,
-          totalElevationGain: activity.total_elevation_gain,
-          elevHigh: activity.elev_high ?? null,
-          elevLow: activity.elev_low ?? null,
-          sportTypeId: sportType.id,
-          startDate: new Date(activity.start_date),
-          startDateLocal: new Date(activity.start_date_local),
-          timezone: activity.timezone,
-          startLatlng: activity.start_latlng ?? [],
-          endLatlng: activity.end_latlng ?? [],
-          achievementCount: activity.achievement_count,
-          kudosCount: activity.kudos_count,
-          commentCount: activity.comment_count,
-          athleteCount: activity.athlete_count,
-          totalPhotoCount: activity.total_photo_count,
-          summaryPolyline: activity.map.summary_polyline ?? null,
-          trainer: activity.trainer,
-          commute: activity.commute,
-          manual: activity.manual,
-          private: activity.private,
-          flagged: activity.flagged,
-          workoutType: activity.workout_type ?? null,
-          averageSpeed: activity.average_speed,
-          maxSpeed: activity.max_speed,
-          hasKudoed: activity.has_kudoed,
-          gearId: activity.gear_id ?? null,
-          kilojoules: activity.kilojoules ?? null,
-          averageWatts: activity.average_watts ?? null,
-          deviceWatts: activity.device_watts ?? null,
-          maxWatts: activity.max_watts ?? null,
-          weightedAverageWatts: activity.weighted_average_watts ?? null,
-        },
-      });
-
-      createdActivities.push(createdActivity);
-    }
-
     console.info(
-      `Successfully created ${createdActivities.length} activities in database`
+      `Starting to save ${activities.length} activities to database`
     );
 
-    return createdActivities;
+    const stravaActivityIds = activities.map((activity) => activity.id);
+    const existingActivities = await prisma.activity.findMany({
+      where: { stravaActivityId: { in: stravaActivityIds } },
+      select: { stravaActivityId: true },
+    });
+    const existingActivityIds = new Set(
+      existingActivities.map((a) => a.stravaActivityId)
+    );
+
+    console.info(
+      `Found ${existingActivityIds.size} activities already in database`
+    );
+
+    const activitiesToCreate = activities.filter(
+      (activity) => !existingActivityIds.has(BigInt(activity.id))
+    );
+
+    if (activitiesToCreate.length === 0) {
+      console.info("No new activities to create");
+      return [];
+    }
+
+    console.info(`Creating ${activitiesToCreate.length} new activities`);
+
+    const activitiesData = activitiesToCreate.map((activity) => ({
+      stravaActivityId: activity.id,
+      userId: user.id,
+      stravaUserId: activity.athlete.id,
+      stravaUploadId: activity.upload_id ?? null,
+      name: activity.name,
+      distance: activity.distance,
+      movingTime: activity.moving_time,
+      elapsedTime: activity.elapsed_time,
+      totalElevationGain: activity.total_elevation_gain,
+      elevHigh: activity.elev_high ?? null,
+      elevLow: activity.elev_low ?? null,
+      sportType: activity.sport_type,
+      startDate: new Date(activity.start_date),
+      startDateLocal: new Date(activity.start_date_local),
+      timezone: activity.timezone,
+      startLatlng: activity.start_latlng ?? [],
+      endLatlng: activity.end_latlng ?? [],
+      achievementCount: activity.achievement_count,
+      kudosCount: activity.kudos_count,
+      commentCount: activity.comment_count,
+      athleteCount: activity.athlete_count,
+      totalPhotoCount: activity.total_photo_count,
+      summaryPolyline: activity.map.summary_polyline ?? null,
+      trainer: activity.trainer,
+      commute: activity.commute,
+      manual: activity.manual,
+      private: activity.private,
+      flagged: activity.flagged,
+      workoutType: activity.workout_type ?? null,
+      averageSpeed: activity.average_speed,
+      maxSpeed: activity.max_speed,
+      hasKudoed: activity.has_kudoed,
+      gearId: activity.gear_id ?? null,
+      kilojoules: activity.kilojoules ?? null,
+      averageWatts: activity.average_watts ?? null,
+      deviceWatts: activity.device_watts ?? null,
+      maxWatts: activity.max_watts ?? null,
+      weightedAverageWatts: activity.weighted_average_watts ?? null,
+    }));
+
+    const result = await prisma.activity.createMany({
+      data: activitiesData,
+      skipDuplicates: true,
+    });
+
+    console.info(`Successfully created ${result.count} activities in database`);
+
+    return result;
   }
 }
