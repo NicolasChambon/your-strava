@@ -1,6 +1,9 @@
 -- CreateEnum
 CREATE TYPE "SportType" AS ENUM ('AlpineSki', 'BackcountrySki', 'Badminton', 'Canoeing', 'Crossfit', 'EBikeRide', 'Elliptical', 'EMountainBikeRide', 'Golf', 'GravelRide', 'Handcycle', 'HighIntensityIntervalTraining', 'Hike', 'IceSkate', 'InlineSkate', 'Kayaking', 'Kitesurf', 'MountainBikeRide', 'NordicSki', 'Pickleball', 'Pilates', 'Racquetball', 'Ride', 'RockClimbing', 'RollerSki', 'Rowing', 'Run', 'Sail', 'Skateboard', 'Snowboard', 'Snowshoe', 'Soccer', 'Squash', 'StairStepper', 'StandUpPaddling', 'Surfing', 'Swim', 'TableTennis', 'Tennis', 'TrailRun', 'Velomobile', 'VirtualRide', 'VirtualRow', 'VirtualRun', 'Walk', 'WeightTraining', 'Wheelchair', 'Windsurf', 'Workout', 'Yoga');
 
+-- CreateEnum
+CREATE TYPE "Sex" AS ENUM ('M', 'F', 'O');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
@@ -8,6 +11,24 @@ CREATE TABLE "User" (
     "accessToken" TEXT NOT NULL,
     "refreshToken" TEXT NOT NULL,
     "expiresAt" TIMESTAMP(3) NOT NULL,
+    "username" TEXT,
+    "firstName" TEXT NOT NULL,
+    "lastName" TEXT NOT NULL,
+    "bio" TEXT,
+    "city" TEXT,
+    "state" TEXT,
+    "country" TEXT,
+    "sex" "Sex",
+    "premium" BOOLEAN NOT NULL,
+    "summit" BOOLEAN NOT NULL,
+    "stravaCreatedAt" TIMESTAMP(3) NOT NULL,
+    "stravaUpdatedAt" TIMESTAMP(3) NOT NULL,
+    "badgeTypeId" INTEGER,
+    "weight" DOUBLE PRECISION,
+    "profileMedium" TEXT,
+    "profile" TEXT,
+    "friend" INTEGER,
+    "follower" INTEGER,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
