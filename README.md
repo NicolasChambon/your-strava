@@ -36,8 +36,8 @@ npm install
 3. Configure backend environment variables
 
 ```bash
-# Create a .env.development.local file
-cp .env.development .env.development.local
+# Create a .env file
+cp .env.template .env
 # Edit the file with your values
 ```
 
@@ -63,8 +63,8 @@ npm install
 6. Configure frontend environment variables
 
 ```bash
-# Create a .env.development.local file
-cp .env.development .env.development.local
+# Create a .env file
+cp .env.template .env
 # Edit the file with your values
 ```
 

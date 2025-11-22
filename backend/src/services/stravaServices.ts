@@ -1,9 +1,7 @@
 import axios from "axios";
-import dotenv from "dotenv";
+import "dotenv/config";
 import { BadRequestError } from "@/lib/errors";
 import { StravaTokenResponse, SummaryActivity } from "@/types/strava";
-
-dotenv.config({ path: ".env.development.local" });
 
 export class StravaService {
   private clientId: string;

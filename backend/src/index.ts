@@ -1,21 +1,30 @@
 import cors from "cors";
-import dotenv from "dotenv";
 import express from "express";
+import "dotenv/config";
 import { errorHandler } from "./lib/errors";
 import routes from "./routes";
-
-dotenv.config({ path: ".env.development.local" });
 
 const app = express();
 const PORT = process.env.BACKEND_PORT;
 
+const allowedOrigins = [
+  process.env.FRONTEND_DEV_URL,
+  process.env.FRONTEND_STAGING_URL,
+  process.env.FRONTEND_PROD_URL,
+].filter(Boolean); // retire les valeurs undefined/vides
+
 app.use(
   cors({
-    origin: process.env.FRONTEND_DEV_URL,
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
-
 app.use(express.json());
 
 app.use(routes);

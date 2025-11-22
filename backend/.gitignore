@@ -23,5 +23,6 @@ node_modules
 dist
 build
 .env
+.env.staging
 *.local
 /src/generated/prisma
