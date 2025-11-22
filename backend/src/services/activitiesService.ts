@@ -14,7 +14,9 @@ export class AntivitiesService {
   }
 
   private async getUserOrThrow(trailFramesUserId: string) {
-    const user = await prisma.user.findUnique({ where: { id: trailFramesUserId } });
+    const user = await prisma.user.findUnique({
+      where: { id: trailFramesUserId },
+    });
     if (!user) {
       throw new NotFoundError("User not found");
     }
@@ -31,9 +33,9 @@ export class AntivitiesService {
 
     let page = 1;
     const perPage = 200;
-    let hasMoreActivities = true;
+    let shouldFetchMore = true;
 
-    while (hasMoreActivities) {
+    while (shouldFetchMore) {
       const activities = await stravaService.getActivities({
         accessToken,
         page,
@@ -41,13 +43,13 @@ export class AntivitiesService {
       });
 
       if (activities.length === 0) {
-        hasMoreActivities = false;
+        shouldFetchMore = false;
       } else {
         allActivities.push(...activities);
         console.info(`Fetched page ${page}: ${activities.length} activities`);
 
         if (activities.length < perPage) {
-          hasMoreActivities = false;
+          shouldFetchMore = false;
         } else {
           page++;
         }

@@ -11,7 +11,7 @@ const PORT = process.env.BACKEND_PORT;
 
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL,
+    origin: process.env.FRONTEND_DEV_URL,
     credentials: true,
   })
 );

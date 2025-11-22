@@ -21,5 +21,7 @@ lerna-debug.log*
 # Other
 node_modules
 dist
+build
+.env
 *.local
 /src/generated/prisma

@@ -5,7 +5,7 @@ const router = Router();
 
 const authController = new AuthController();
 
-// GET /auth/strava/callback
+// GET /auth/strava/callback?code=AUTH_CODE
 router.get("/strava/callback", (req, res, next) =>
   authController.handleCallback(req, res, next)
 );
